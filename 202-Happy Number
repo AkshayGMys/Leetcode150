@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isHappy(int n) 
+    {
+        unordered_set<int> nums;
+        while(nums.find(n) == nums.end())
+        {
+            if( n == 1)
+                return true;
+            nums.insert(n);
+            int new_number = 0;
+            while(n>0)
+            {
+                int k = n%10;
+                new_number += k*k;
+                n = n/10;
+            }
+            n = new_number;
+        }
+        return false;
+    }
+};
