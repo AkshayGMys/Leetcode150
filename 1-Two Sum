@@ -1,0 +1,21 @@
+//Did it on my own mother fuckerssss
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) 
+    {
+        vector<int> output;
+        unordered_map<int,int> uset;
+        for(int i=0 ; i<nums.size() ; i++)
+        {
+            if(uset.find(target - nums[i]) != uset.end())
+            {
+                output.push_back(uset[target - nums[i]]);
+                output.push_back(i);
+                break;
+            }
+            else
+                uset[nums[i]] = i;
+        }
+        return output;
+    }
+};
