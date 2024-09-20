@@ -1,0 +1,45 @@
+//Took help of ChatGPT
+/*Handling Pattern Length: You increment the pattern_it index only when adding a new character mapping, but it should be incremented for every word parsed. Otherwise, your logic will not correctly match the number of words with the number of characters in the pattern.
+
+Word Count vs. Pattern Length Mismatch: You need to check if the number of words in s matches the length of the pattern. If they don't match, the function should return false.
+
+Bidirectional Mapping Check: The current implementation only checks if a character from pattern is mapped to a word, but there should also be a check to ensure that no word in s is mapped to more than one character in pattern.*/
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) 
+    {
+        unordered_map<char, string> umap; // Maps pattern chars to words
+        unordered_map<string, char> word_map; // Maps words to pattern chars
+        int left = 0, pattern_it = 0;
+
+        for (int i = 0; i <= s.length(); i++) 
+        {
+            if (i == s.length() || s[i] == ' ') 
+            {
+                if (pattern_it >= pattern.length()) // More words than pattern
+                    return false;
+
+                string word = s.substr(left, i - left);
+
+                if (umap.find(pattern[pattern_it]) == umap.end() && 
+                    word_map.find(word) == word_map.end()) 
+                {
+                    // Map both pattern char -> word and word -> pattern char
+                    umap[pattern[pattern_it]] = word;
+                    word_map[word] = pattern[pattern_it];
+                } 
+                else 
+                {
+                    if (umap[pattern[pattern_it]] != word || 
+                        word_map[word] != pattern[pattern_it])
+                        return false;
+                }
+                pattern_it++;
+                left = i + 1;
+            }
+        }
+
+        // Check if the number of pattern characters matches the number of words
+        return pattern_it == pattern.length();
+    }
+};
