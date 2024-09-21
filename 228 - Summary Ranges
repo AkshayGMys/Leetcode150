@@ -1,0 +1,39 @@
+//Learnt about to_string()
+//Took help of ChatGpt as i counldnt handle the edge case of this problem
+
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) 
+    {
+        vector<string> output;
+        int n = nums.size();
+        if (n == 0) return output; // Edge case: if input is empty
+        
+        int left = 0;
+        while (left < n) 
+        {
+            int right = left;
+            // Move 'right' as long as consecutive numbers continue
+            while (right + 1 < n && nums[right + 1] == nums[right] + 1) //The condition right+1 < n is what i had missed 
+            {
+                right++;
+            }
+            
+            if (left == right) 
+            {
+                // If left equals right, it's a single number
+                output.push_back(to_string(nums[left]));
+            } 
+            else 
+            {
+                // Otherwise, it's a range
+                output.push_back(to_string(nums[left]) + "->" + to_string(nums[right]));
+            }
+            
+            // Move to the next range
+            left = right + 1;
+        }
+        
+        return output;
+    }
+};
